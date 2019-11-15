@@ -6,21 +6,31 @@ Action wraps the [Sentry CLI](https://docs.sentry.io/cli/) to publish new releas
 
 An example workflow to release a new Sentry version:
 
-```hcl
-workflow "Release a new version" {
-  on = "push"
-  resolves = "release version"
-}
+```yml
+on:
+  push:
+    branches:
+      - master
+      
+name: Deployment
 
-action "release version" {
-  uses = "juankaram/sentry-release@master"
-  secrets = ["SENTRY_AUTH_TOKEN"]
-  env = {
-    SENTRY_ORG     = "foo"
-    SENTRY_PROJECT = "bar"
-    ENVIRONMENT    = "development"
-  }
-}
+jobs:
+  release-a-new-version:
+    name: Release a new version
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v1.1.0
+
+      - name: "Send release to Sentry"
+        uses: juankaram/sentry-release@v1.0.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: foo
+          SENTRY_PROJECT: bar
+          ENVIRONMENT: development
 ```
 
 ### Secrets
