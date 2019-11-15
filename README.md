@@ -31,6 +31,7 @@ action "release version" {
 
 ### Environment variables
 
+- `ENVIONMENT` - **Required**. The environment context.
 - `RELEASE_VERSION` - **Optional**. Custom version tag. Defaults to `${SENTRY_PROJECT}@$(git describe --always --long)`.
 
 ## Attribution
